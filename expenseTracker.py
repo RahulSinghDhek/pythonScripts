@@ -2,17 +2,14 @@
 from collections import defaultdict
 
 class Player:
-    totalSpent = defaultdict(int)
+    totalDeposited = defaultdict(int)
     totalGames	= defaultdict(int) 
     def __init__(self,name,phoneNo,amount):
 	self.name=name
 	self.phoneNo=phoneNo
 	self.amount = amount
-	Player.totalSpent[name]=Player.totalSpent[name]+amount
+	Player.totalDeposited[name]=Player.totalDeposited[name]+amount
 	Player.totalGames[name]=Player.totalGames[name]+1
-
-    def displayCount(self):
-        print "Total Players %d" % Player.playerCount
 
 class Game:
 
@@ -25,12 +22,11 @@ class Game:
 	noOfPlayerForGame =  len(self.playerList)
 	return (self.totalAmount/noOfPlayerForGame)
 	
-    def partOfGame(self,playerName):
-	for player in self.playerList:
-	    if playerName in player:
+    def isPartOfGame(self,playerName):
+	for playerDetail in self.playerList:
+	    if(playerDetail.name == playerName):
 		return True
 	return False
-
 
 
 listOfPlayers={}
@@ -52,11 +48,18 @@ print game3.perHeadGameWise()
 print game4.perHeadGameWise()
 print game5.perHeadGameWise()
 
-print game1.partOfGame("vikalp")
-print game1.partOfGame("Uma")
-print game1.partOfGame("rejy")
-print game1.partOfGame("Rivu")
+print game1.isPartOfGame("vikalp")
+print game1.isPartOfGame("Uma")
+print game1.isPartOfGame("rejy")
+print game1.isPartOfGame("Rivu")
 
-print "Vikalp : " , Player.totalSpent['vikalp']/Player.totalGames['vikalp']
-print "Rivu   : " , Player.totalSpent['Rivu']/Player.totalGames['Rivu']
+gameList=[game1,game2,game3,game4,game5]
+#print "Vikalp : " , Player.totalSpent['vikalp']/Player.totalGames['vikalp']
+#print "Rivu   : " , Player.totalSpent['Rivu']/Player.totalGames['Rivu']
+tot=0
+for x in gameList:
+    if (x.isPartOfGame("vikalp")):
+	tot = tot + x.perHeadGameWise()
 
+print "vikalp balance : " , Player.totalDeposited['vikalp']-tot
+    
